@@ -1,5 +1,5 @@
 jobs:
-  - job: build_infra
+  - job: setup_workspace
     displayName: Infrastructure Build
 
     variables:

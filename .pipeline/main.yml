@@ -18,4 +18,11 @@ stages:
   - stage: infra_provision
     displayName: Provision Infrastructure
     jobs:
-      - template: ./templates/deploy.yml
+      - template: ./templates/setup.yml
+
+  - stage: workspace_setup
+    displayName: Setup Workspace
+    jobs:
+      - deployment: Approval
+        displayName: Workspace Setup Approval
+      - template: ./templates/setup.yml
