@@ -1,6 +1,6 @@
 jobs:
   - job: setup_workspace
-    displayName: Infrastructure Build
+    displayName: Setup Workspace
 
     variables:
       - template: ./variables.yml
@@ -23,7 +23,7 @@ jobs:
           inlineScript: |
             az ml folder attach \
             --workspace-name $(ml_workspace_name) \
-            --resource-group myresourcegroup
+            --resource-group $(resource_group_name)
 
       - task: AzureCLI@2
         displayName: Attach Workspace
