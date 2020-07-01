@@ -26,7 +26,7 @@ jobs:
             --resource-group $(resource_group_name)
 
       - task: AzureCLI@2
-        displayName: Attach Workspace
+        displayName: Attach AKS Cluster
         inputs:
           scriptType: bash
           azureSubscription: $(service_connection)
@@ -34,7 +34,7 @@ jobs:
           inlineScript: |
             export SUBSCRIPTION_ID=$(az account show | jq ".id" --raw-output)
 
-            az ml computetarget attach aks 
+            az ml computetarget attach aks \
             --compute-resource-id /subscriptions/$SUBSCRIPTION_ID/resourcegroups/$(resource_group_name)/providers/Microsoft.ContainerService/managedClusters/$(aks_name) \
             --name $(aks_cluster_name)
 
@@ -45,9 +45,9 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
-            az ml computetarget create amlcompute 
-            --name $(compute_cluster_name)
-            --vm-size Standard_DS2_v2
+            az ml computetarget create amlcompute \
+            --name $(compute_cluster_name) \
+            --vm-size Standard_DS2_v2 \
             --max-nodes 2
 
       - task: AzureCLI@2
