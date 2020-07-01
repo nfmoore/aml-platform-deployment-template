@@ -46,7 +46,7 @@
             "name": "agentpool",
             "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
             "count": 3,
-            "vmSize": "Standard_DS2_v2",
+            "vmSize": "Standard_DS3_v2",
             "osType": "Linux",
             "storageProfile": "ManagedDisks",
             "type": "VirtualMachineScaleSets",
