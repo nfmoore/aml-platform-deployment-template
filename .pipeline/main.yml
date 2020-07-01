@@ -18,10 +18,11 @@ stages:
   - stage: infra_provision
     displayName: Provision Infrastructure
     jobs:
-      - template: ./templates/setup.yml
+      - template: ./templates/deploy.yml
 
   - stage: workspace_setup
     displayName: Setup Workspace
+    dependsOn: infra_provision
     jobs:
       - deployment: Approval
         displayName: Workspace Setup Approval
