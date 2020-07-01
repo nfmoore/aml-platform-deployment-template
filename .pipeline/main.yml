@@ -1,0 +1,21 @@
+name: provision_setup_environment - $(SourceBranchName) - $(Date:yyyyMMdd)$(Rev:.r) -
+pool:
+  vmImage: ubuntu-latest
+variables:
+  - template: ./templates/variables.yml
+
+trigger:
+  branches:
+    include:
+      - master
+      - release-*
+    exclude:
+      - docs/*
+      - LICENSE
+      - README.md
+
+stages:
+  - stage: infra_provision
+    displayName: Provision Infrastructure
+    jobs:
+      - template: ./templates/deploy.yml

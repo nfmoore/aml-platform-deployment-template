@@ -1,0 +1,60 @@
+jobs:
+  - job: build_infra
+    displayName: Infrastructure Build
+
+    variables:
+      - template: ./variables.yml
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Install Azure ML CLI
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: az extension add -n azure-cli-ml
+
+      - task: AzureCLI@2
+        displayName: Attach Workspace
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az ml folder attach \
+            --workspace-name $(ml_workspace_name) \
+            --resource-group myresourcegroup
+
+      - task: AzureCLI@2
+        displayName: Attach Workspace
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            export SUBSCRIPTION_ID=$(az account show | jq ".id" --raw-output)
+
+            az ml computetarget attach aks 
+            --compute-resource-id /subscriptions/$SUBSCRIPTION_ID/resourcegroups/$(resource_group_name)/providers/Microsoft.ContainerService/managedClusters/$(aks_name) \
+            --name $(aks_cluster_name)
+
+      - task: AzureCLI@2
+        displayName: Attach AML Compute
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az ml computetarget create amlcompute 
+            --name $(compute_cluster_name)
+            --vm-size Standard_DS2_v2
+            --max-nodes 2
+
+      - task: AzureCLI@2
+        displayName: Load Dataset
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az ml dataset register --file data/dataset-specification.json --skip-validation
