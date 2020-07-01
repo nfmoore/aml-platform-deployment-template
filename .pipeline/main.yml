@@ -25,4 +25,5 @@ stages:
     jobs:
       - deployment: Approval
         displayName: Workspace Setup Approval
+workspace        environment: $(environment)
       - template: ./templates/setup.yml
