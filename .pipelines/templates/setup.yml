@@ -5,6 +5,12 @@ jobs:
     variables:
       - group: aml-deployment-templates
 
+      - name: resource_group_name
+        value: $(environment)-$(namespace)-rg
+
+      - name: workspace_name
+        value: mlw$(environment)$(namespace)
+
       - name: compute_cluster_name
         value: cpu-cluster
 
