@@ -11,6 +11,9 @@ jobs:
       - name: ml_workspace_name
         value: mlw$(environment)$(namespace)
 
+      - name: aks_name
+        value: aks$(environment)$(namespace)
+
       - name: compute_cluster_name
         value: cpu-cluster
 
