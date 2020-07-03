@@ -1,8 +1,9 @@
 name: provision_setup_environment - $(SourceBranchName) - $(Date:yyyyMMdd)$(Rev:.r) -
 pool:
   vmImage: ubuntu-latest
+
 variables:
-  - template: ./templates/variables.yml
+  - group: aml-deployment-templates
 
 trigger:
   branches:
