@@ -3,7 +3,13 @@ jobs:
     displayName: Setup Workspace
 
     variables:
-      - template: ./variables.yml
+      - group: aml-deployment-templates
+
+      - name: compute_cluster_name
+        value: cpu-cluster
+
+      - name: aks_cluster_name
+        value: aks-cluster
 
     steps:
       - task: AzureCLI@2
