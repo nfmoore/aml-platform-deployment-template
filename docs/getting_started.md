@@ -25,11 +25,27 @@
 
    See [these](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints#create-a-service-connection) instructions for more details about creating an Azure Resource Manager Service connection.
 
+3. Create a variable group in Azure DevOps to store values that are reused across multiple pipelines or pipeline stages.
+
+   1. Select the `Library` tab from the `Pipelines` section (found on the sidebar).
+   2. Click `+ Variable group` and create a variable group named `aml-deployment-templates`. Note: you can enter another name for your variable group but this will require editing the variable group name in the [`deploy.yml`](../.pipelines/templates/deploy.yml), [`setup.yml`](../.pipelines/templates/setup.yml) and [`main.yml`](../.pipelines/main.yml) files.
+   3. The variable group should contain the following required variables:
+
+      | Variable Name          | Suggested Value            |
+      | ---------------------- | -------------------------- |
+      | `aks_cluster_name`     | `aks-cluster`              |
+      | `aml_sku`              | `enterprise`               |
+      | `compute_cluster_name` | `cpu-cluster`              |
+      | `environment`          | `development`              |
+      | `location`             | `australiaeast`            |
+      | `namespace`            | `amlplatform`              |
+      | `service_connection`   | `azure-service-connection` |
+
+See [these](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=classic#use-a-variable-group) instructions for more details about creating a variable group in Azure DevOps.
+
 ### 3. Deploy the platform
 
-1. In your GitHub repository, edit the any variables in the [`variables.yml`](../.pipelines/templates/variables.yml) you wish to change for your deployment. Remember to change the values for `service_connection` or `resource_group_name` if you have selected something different in section 2 step 2 above.
-
-2. In your Azure DevOps project, create a pipeline from your repository.
+1. In your Azure DevOps project, create a pipeline from your repository.
 
    1. Select the `Pipelines` tab from the `Pipelines` section (found on the sidebar).
    2. Click on `New Pipeline` (found at the top-right of the portal).
