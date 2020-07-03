@@ -9,7 +9,6 @@ trigger:
   branches:
     include:
       - master
-      - release-*
     exclude:
       - docs/*
       - LICENSE
