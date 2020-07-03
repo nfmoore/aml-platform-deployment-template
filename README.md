@@ -16,6 +16,11 @@ Follow the instructions in the [getting started](docs/getting_started.md) doc to
 
 Note: the dataset used in this deployment template is the [Cardiovascular Disease dataset](https://www.kaggle.com/sulianova/cardiovascular-disease-dataset) available on Kaggle.
 
+## Related Projects
+Check out these related projects.
+
+- [AML Real-Time Deployment Template](https://github.com/nfmoore/aml-real-time-deployment-template) - automated end-to-end deployment of machine learning models as a web service for real-time inferencing
+
 ## References
 
 - [Azure Machine Learning documentation](https://docs.microsoft.com/en-us/azure/machine-learning/)
