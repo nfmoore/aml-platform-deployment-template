@@ -27,7 +27,7 @@
 
 1. In your GitHub repository, edit the any variables in the [`variables.yml`](../.pipelines/templates/variables.yml) you wish to change for your deployment. Remember to change the values for `service_connection` or `resource_group_name` if you have selected something different in section 2 step 2 above.
 
-2. In your Azure DevOps project, create a build pipeline from your forked repository.
+2. In your Azure DevOps project, create a pipeline from your repository.
 
    1. Select the `Pipelines` tab from the `Pipelines` section (found on the sidebar).
    2. Click on `New Pipeline` (found at the top-right of the portal).
@@ -37,9 +37,9 @@
    6. Select the `master` branch and enter `/.pipeline/main.yml` as the path or select it from the dropdown and click `Continue`.
    7. Select `Run` from the top-right of the protal to execute the pipeline and deploy the platform.
 
-   See [these](https://docs.microsoft.com/en-us/azure/devops/pipelines/create-first-pipeline) instructions for more details about creating a pipeline in Azrue DevOps.
+   See [these](https://docs.microsoft.com/en-us/azure/devops/pipelines/create-first-pipeline) instructions for more details about creating a pipeline in Azure DevOps.
 
 ## Use the platform
 
 - In your [Azure Portal](https://www.portal.azure.com) you should now have a resource group with an Azure Machine Learning workspace with [associated resources](https://docs.microsoft.com/en-us/azure/machine-learning/concept-workspace#resources) and an [AKS cluster](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes). Your workspace should have a registered [dataset](https://docs.microsoft.com/en-us/azure/machine-learning/concept-data#datasets), a [compute cluster](https://docs.microsoft.com/en-us/azure/machine-learning/concept-compute-target#azure-machine-learning-compute-managed) and the [AKS cluster](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes) should be attached to the workspace as an inference cluster.
-- To launch the Azure Machine Learning studio workspace select the resource from your resource group and click `Launch Now`. Alternatively, navigate to [ml.azure.com](https://ml.azure.com/) and select the your directory, subscription, and workspace.
+- To launch the Azure Machine Learning studio workspace select the resource from your resource group and click `Launch Now`. Alternatively, navigate to [ml.azure.com](https://ml.azure.com/) and select the your directory, subscription and workspace.
