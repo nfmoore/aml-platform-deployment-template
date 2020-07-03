@@ -8,7 +8,7 @@ jobs:
       - name: resource_group_name
         value: $(environment)-$(namespace)-rg
 
-      - name: workspace_name
+      - name: ml_workspace_name
         value: mlw$(environment)$(namespace)
 
       - name: compute_cluster_name
