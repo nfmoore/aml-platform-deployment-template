@@ -1,0 +1,81 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "dnsPrefix": {
+      "type": "string"
+    },
+    "osDiskSizeGB": {
+      "type": "int"
+    },
+    "kubernetesVersion": {
+      "type": "string"
+    },
+    "networkPlugin": {
+      "type": "string"
+    },
+    "enableRBAC": {
+      "type": "bool"
+    },
+    "enablePrivateCluster": {
+      "type": "bool"
+    },
+    "enableHttpApplicationRouting": {
+      "type": "bool"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2020-03-01",
+      "dependsOn": [],
+      "type": "Microsoft.ContainerService/managedClusters",
+      "location": "[parameters('location')]",
+      "name": "[parameters('name')]",
+      "properties": {
+        "kubernetesVersion": "[parameters('kubernetesVersion')]",
+        "enableRBAC": "[parameters('enableRBAC')]",
+        "dnsPrefix": "[parameters('dnsPrefix')]",
+        "agentPoolProfiles": [
+          {
+            "name": "agentpool",
+            "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
+            "count": 3,
+            "vmSize": "Standard_DS3_v2",
+            "osType": "Linux",
+            "storageProfile": "ManagedDisks",
+            "type": "VirtualMachineScaleSets",
+            "mode": "System"
+          }
+        ],
+        "networkProfile": {
+          "loadBalancerSku": "standard",
+          "networkPlugin": "[parameters('networkPlugin')]"
+        },
+        "apiServerAccessProfile": {
+          "enablePrivateCluster": "[parameters('enablePrivateCluster')]"
+        },
+        "addonProfiles": {
+          "httpApplicationRouting": {
+            "enabled": "[parameters('enableHttpApplicationRouting')]"
+          }
+        }
+      },
+      "tags": {},
+      "identity": {
+        "type": "SystemAssigned"
+      }
+    }
+  ],
+  "outputs": {
+    "controlPlaneFQDN": {
+      "type": "string",
+      "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('name'))).fqdn]"
+    }
+  }
+}
