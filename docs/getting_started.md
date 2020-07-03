@@ -1,5 +1,7 @@
 # Getting Started
 
+## Setup and Deploy Platform
+
 ### 1. Create a new GitHub repository
 
 1. Login to your GitHub account, navigate to the [AML Platform Deployment Template repository](https://github.com/nfmoore/aml-platform-deployment-template) and create a new repository from this template. Use [these](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) instructions for more details about creating a repository from a template.
@@ -43,3 +45,9 @@
 
 - In your [Azure Portal](https://www.portal.azure.com) you should now have a resource group with an Azure Machine Learning workspace with [associated resources](https://docs.microsoft.com/en-us/azure/machine-learning/concept-workspace#resources) and an [AKS cluster](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes). Your workspace should have a registered [dataset](https://docs.microsoft.com/en-us/azure/machine-learning/concept-data#datasets), a [compute cluster](https://docs.microsoft.com/en-us/azure/machine-learning/concept-compute-target#azure-machine-learning-compute-managed) and the [AKS cluster](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes) should be attached to the workspace as an inference cluster.
 - To launch the Azure Machine Learning studio workspace select the resource from your resource group and click `Launch Now`. Alternatively, navigate to [ml.azure.com](https://ml.azure.com/) and select the your directory, subscription and workspace.
+
+## Next Steps
+
+Check out these related projects:
+
+- [AML Real-Time Deployment Template](https://github.com/nfmoore/aml-real-time-deployment-template) - automated end-to-end deployment of machine learning models as a web service for real-time inferencing
