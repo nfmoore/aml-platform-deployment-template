@@ -86,13 +86,13 @@ jobs:
           inlineScript: |
             set -e
 
-            export CONNECTION_STRING=$(az storage account show-connection-string --name $(storage_name) --resource-group $(resource_group_name) | jq ".connectionString" --raw-output)
+            # export CONNECTION_STRING=$(az storage account show-connection-string --name $(storage_name) --resource-group $(resource_group_name) | jq ".connectionString" --raw-output)
 
-            az storage container create --name batch_score_input --account-name $(storage_name) --resource-group $(resource_group_name) --connection-string $CONNECTION_STRING
-            az storage container create --name batch_score_output --account-name $(storage_name) --resource-group $(resource_group_name) --connection-string $CONNECTION_STRING
+            az storage container create --name batch-score-input --account-name $(storage_name) --resource-group $(resource_group_name) # --connection-string $CONNECTION_STRING
+            az storage container create --name batch-score-output --account-name $(storage_name) --resource-group $(resource_group_name) # --connection-string $CONNECTION_STRING
 
-            az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_input --name batch_score_input
-            az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_output --name batch_score_output
+            az ml datastore attach-blob --account-name $(storage_name) --container-name batch-score-input --name batch_score_input
+            az ml datastore attach-blob --account-name $(storage_name) --container-name batch-score-output  --name batch_score_output
 
       - task: AzureCLI@2
         displayName: Register File Dataset
