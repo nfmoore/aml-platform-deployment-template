@@ -86,11 +86,37 @@ jobs:
           inlineScript: |
             set -e
 
-            az storage container create --name batch-score-input --account-name $(storage_name) --resource-group $(resource_group_name)
-            az storage container create --name batch-score-output --account-name $(storage_name) --resource-group $(resource_group_name)
+            export SUBSCRIPTION_ID=$(az account show | jq ".id" --raw-output)
 
-            az ml datastore attach-blob --account-name $(storage_name) --container-name batch-score-input --name batch_score_input
-            az ml datastore attach-blob --account-name $(storage_name) --container-name batch-score-output  --name batch_score_output
+            export STORAGE_ACCOUNT_KEY=$(az storage account keys list \
+            --resource-group $(resource_group_name) \
+            --account-name $(storage_name) | jq ".[0].value" --raw-output)
+
+            az storage container create \
+            --name batch-score-input \
+            --account-name $(storage_name) \
+            --resource-group $(resource_group_name)
+
+            az storage container create \
+            --name batch-score-output \
+            --account-name $(storage_name) \
+            --resource-group $(resource_group_name)
+
+            az ml datastore attach-blob \
+            --account-name $(storage_name) \
+            --container-name batch-score-input \
+            --name batch_score_input \
+            --storage-account-resource-group $(resource_group_name) \
+            --storage-account-subscription-id $SUBSCRIPTION_ID \
+            --account-key $STORAGE_ACCOUNT_KEY \
+
+            az ml datastore attach-blob \
+            --account-name $(storage_name) \
+            --container-name batch-score-output  \
+            --name batch_score_output $(resource_group_name) \
+            --storage-account-resource-group \
+            --storage-account-subscription-id $SUBSCRIPTION_ID \
+            --account-key $STORAGE_ACCOUNT_KEY \
 
       - task: AzureCLI@2
         displayName: Register File Dataset
