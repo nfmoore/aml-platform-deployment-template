@@ -84,6 +84,8 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
+            set -e
+
             export SUBSCRIPTION_ID=$(az account show | jq ".id" --raw-output)
 
             az storage container create --name batch_score_input --account-name $(storage_name) --resource-group $(resource_group_name) --subscription $SUBSCRIPTION_ID
