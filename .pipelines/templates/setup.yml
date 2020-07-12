@@ -86,10 +86,10 @@ jobs:
           inlineScript: |
             set -e
 
-            export SUBSCRIPTION_ID=$(az account show | jq ".id" --raw-output)
+            export CONNECTION_STRING=$(az storage account show-connection-string --name $(storage_name) --resource-group $(resource_group_name) | jq ".connectionString" --raw-output)
 
-            az storage container create --name batch_score_input --account-name $(storage_name) --resource-group $(resource_group_name) --subscription $SUBSCRIPTION_ID
-            az storage container create --name batch_score_output --account-name $(storage_name) --resource-group $(resource_group_name) --subscription $SUBSCRIPTION_ID
+            az storage container create --name batch_score_input --account-name $(storage_name) --resource-group $(resource_group_name) --connection-string $CONNECTION_STRING
+            az storage container create --name batch_score_output --account-name $(storage_name) --resource-group $(resource_group_name) --connection-string $CONNECTION_STRING
 
             az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_input --name batch_score_input
             az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_output --name batch_score_output
