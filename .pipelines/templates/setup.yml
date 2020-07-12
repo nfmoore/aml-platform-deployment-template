@@ -11,6 +11,9 @@ jobs:
       - name: ml_workspace_name
         value: mlw$(environment)$(namespace)
 
+      - name: storage_name
+        value: str$(environment)$(namespace)
+
       - name: aks_name
         value: aks$(environment)$(namespace)
 
@@ -72,4 +75,26 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
-            az ml dataset register --file data/dataset-specification.json --skip-validation
+            az ml dataset register --file data/tabular-dataset-spec.json --skip-validation
+
+      - task: AzureCLI@2
+        displayName: Create Datastores
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az storage container create --name batch_score_input --account-name $(storage_name) --resource-group $(resource_group_name)
+            az storage container create --name batch_score_output --account-name $(storage_name) --resource-group $(resource_group_name)
+
+            az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_input --name batch_score_input
+            az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_output --name batch_score_output
+
+      - task: AzureCLI@2
+        displayName: Register File Dataset
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az ml dataset register --file data/file-dataset-spec.json --skip-validation
