@@ -7,7 +7,7 @@
     "path": [
       {
         "datastoreName": "batch_score_input",
-        "relativePath": "**"
+        "relativePath": "cardiovascular_disease/**"
       }
     ],
     "separator": ",",
@@ -16,7 +16,7 @@
   "registration": {
     "createNewVersion": true,
     "description": "70,000 records of patients' data relating to cardiovascular disease collected at the moment of medical examination",
-    "name": "batch_score_input",
+    "name": "cardiovascular_disease_batch_score",
     "tags": {
       "project": "deployment-template"
     }
