@@ -6,7 +6,7 @@
     "inferColumnTypes": false,
     "path": [
       {
-        "datastoreName": "cardiovascular_disease_batch_score_input",
+        "datastoreName": "batch_score_input",
         "relativePath": "cardiovascular_disease/**"
       }
     ],
