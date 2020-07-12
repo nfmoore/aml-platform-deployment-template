@@ -113,8 +113,8 @@ jobs:
             az ml datastore attach-blob \
             --account-name $(storage_name) \
             --container-name batch-score-output  \
-            --name batch_score_output $(resource_group_name) \
-            --storage-account-resource-group \
+            --name batch_score_output \
+            --storage-account-resource-group $(resource_group_name) \
             --storage-account-subscription-id $SUBSCRIPTION_ID \
             --account-key $STORAGE_ACCOUNT_KEY \
 
