@@ -66,7 +66,7 @@ jobs:
             --max-nodes 2
 
       - task: AzureCLI@2
-        displayName: Load Dataset
+        displayName: Register Tabular Dataset
         inputs:
           scriptType: bash
           azureSubscription: $(service_connection)
