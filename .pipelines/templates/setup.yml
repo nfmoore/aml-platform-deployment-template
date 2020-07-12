@@ -66,8 +66,7 @@ jobs:
             az ml computetarget create amlcompute \
             --name $(compute_cluster_name) \
             --vm-size Standard_DS2_v2 \
-            --max-nodes 2 \
-            --no-wait
+            --max-nodes 2
 
       - task: AzureCLI@2
         displayName: Register Tabular Dataset
