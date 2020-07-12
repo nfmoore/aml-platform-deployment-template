@@ -84,11 +84,13 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
+            export SUBSCRIPTION_ID=$(az account show | jq ".id" --raw-output)
+
             az storage container create --name batch_score_input --account-name $(storage_name) --resource-group $(resource_group_name)
             az storage container create --name batch_score_output --account-name $(storage_name) --resource-group $(resource_group_name)
 
-            az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_input --name batch_score_input
-            az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_output --name batch_score_output
+            az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_input --name batch_score_input --subscription-id $SUBSCRIPTION_ID
+            az ml datastore attach-blob --account-name $(storage_name) --container-name batch_score_output --name batch_score_output --subscription-id $SUBSCRIPTION_ID
 
       - task: AzureCLI@2
         displayName: Register File Dataset
