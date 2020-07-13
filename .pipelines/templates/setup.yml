@@ -85,7 +85,7 @@ jobs:
             --container-name $(input_blob_contianer_name) \
             --directory-path $(input_blob_directory_path) \
             --account-name $(storage_name) \
-            --account-key $STORAGE_ACCOUNT_KEY \
+            --account-key $STORAGE_ACCOUNT_KEY
 
             az storage container create \
             --name $(output_blob_contianer_name) \
