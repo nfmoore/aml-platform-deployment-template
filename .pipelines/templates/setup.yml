@@ -74,7 +74,9 @@ jobs:
 
             export STORAGE_ACCOUNT_KEY=$(az storage account keys list \
             --resource-group $(resource_group_name) \
-            --account-name $(storage_name) | jq ".[0].value" --raw-output)
+            --account-name $(storage_name) | jq ".[0].value")
+
+            echo $STORAGE_ACCOUNT_KEY
 
             az storage container create \
             --name $(input_blob_contianer_name) \
