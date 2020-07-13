@@ -12,7 +12,9 @@ jobs:
           scriptType: bash
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
-          inlineScript: az extension add -n azure-cli-ml
+          inlineScript: |
+            az extension add --name azure-cli-ml
+            az extension add --name storage-preview
 
       - task: AzureCLI@2
         displayName: Attach Workspace
