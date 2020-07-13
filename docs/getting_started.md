@@ -67,3 +67,4 @@ See [these](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/vari
 Check out these related projects:
 
 - [AML Real-Time Deployment Template](https://github.com/nfmoore/aml-real-time-deployment-template) - automated end-to-end deployment of machine learning models as a web service for real-time inferencing
+- [AML Batch Scoring Deployment Template](https://github.com/nfmoore/aml-batch-deployment-template) - automated end-to-end deployment of machine learning models as an AML Pipeline for batch inferencing

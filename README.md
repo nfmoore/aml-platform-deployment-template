@@ -4,7 +4,7 @@
 
 [Azure Machine Learning](https://docs.microsoft.com/en-us/azure/machine-learning/overview-what-is-azure-ml) is a cloud-based environment you can use to train, deploy, automate, manage, and track machine learning models and data science workflows. This deployment template takes an [Infrastructure as Code](https://docs.microsoft.com/en-us/azure/devops/learn/what-is-infrastructure-as-code) approach with DevOps principles of [continuous integration (CI)](https://docs.microsoft.com/en-us/azure/devops/learn/what-is-continuous-integration) and [continuous delivery (CD)](https://docs.microsoft.com/en-us/azure/devops/learn/what-is-continuous-delivery).
 
-The template contains code and DevOps pipeline definitions to automate the deployment of an [Azure Machine Learning Workspace](https://docs.microsoft.com/en-us/azure/machine-learning/concept-workspace) along with [associated resources](https://docs.microsoft.com/en-us/azure/machine-learning/concept-workspace#resources) and [Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes) as in inference cluster (when deploying machine learning models as web services). Collectivley, these form the basis of a the data science platform. The deployment template also includes the creation of a [compute cluster](https://docs.microsoft.com/en-us/azure/machine-learning/concept-compute-target#azure-machine-learning-compute-managed) and [dataset](https://docs.microsoft.com/en-us/azure/machine-learning/concept-data#datasets).
+The template contains code and DevOps pipeline definitions to automate the deployment of an [Azure Machine Learning Workspace](https://docs.microsoft.com/en-us/azure/machine-learning/concept-workspace) along with [associated resources](https://docs.microsoft.com/en-us/azure/machine-learning/concept-workspace#resources) and [Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/aks/intro-kubernetes) as in inference cluster (when deploying machine learning models as web services). Collectivley, these form the basis of a the data science platform. The deployment template also includes the creation of a [compute cluster](https://docs.microsoft.com/en-us/azure/machine-learning/concept-compute-target#azure-machine-learning-compute-managed) and both file and tabular [datasets](https://docs.microsoft.com/en-us/azure/machine-learning/concept-data#datasets).
 
 ## Prerequisites
 
@@ -22,7 +22,8 @@ Note: the dataset used in this deployment template is the [Cardiovascular Diseas
 
 Check out these related projects:
 
-- [AML Real-Time Deployment Template](https://github.com/nfmoore/aml-real-time-deployment-template) - automated end-to-end deployment of machine learning models as a web service for real-time inferencing
+- [AML Real-Time Scoring Deployment Template](https://github.com/nfmoore/aml-real-time-deployment-template) - automated end-to-end deployment of machine learning models as a web service for real-time inferencing
+- [AML Batch Scoring Deployment Template](https://github.com/nfmoore/aml-batch-deployment-template) - automated end-to-end deployment of machine learning models as an AML Pipeline for batch inferencing
 
 ## References
 

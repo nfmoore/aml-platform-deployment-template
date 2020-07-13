@@ -20,28 +20,7 @@ jobs:
     dependsOn: build_infra
 
     variables:
-      - group: aml-deployment-templates
-
-      - name: resource_group_name
-        value: $(environment)-$(namespace)-rg
-
-      - name: ml_workspace_name
-        value: mlw$(environment)$(namespace)
-
-      - name: storage_name
-        value: str$(environment)$(namespace)
-
-      - name: key_vault_name
-        value: kv$(environment)$(namespace)
-
-      - name: app_insights_name
-        value: ai$(environment)$(namespace)
-
-      - name: container_registry_name
-        value: cr$(environment)$(namespace)
-
-      - name: aks_name
-        value: aks$(environment)$(namespace)
+      - template: ./variables.yml
 
     strategy:
       runOnce:

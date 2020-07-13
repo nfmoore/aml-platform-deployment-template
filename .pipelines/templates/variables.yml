@@ -1,0 +1,58 @@
+variables:
+  - group: aml-deployment-templates
+
+  # DEPLOY
+  - name: resource_group_name
+    value: $(environment)-$(namespace)-rg
+
+  - name: ml_workspace_name
+    value: mlw$(environment)$(namespace)
+
+  - name: storage_name
+    value: str$(environment)$(namespace)
+
+  - name: key_vault_name
+    value: kv$(environment)$(namespace)
+
+  - name: app_insights_name
+    value: ai$(environment)$(namespace)
+
+  - name: container_registry_name
+    value: cr$(environment)$(namespace)
+
+  - name: aks_name
+    value: aks$(environment)$(namespace)
+
+  # SETUP
+  - name: compute_cluster_name
+    value: cpu-cluster
+
+  - name: aks_cluster_name
+    value: aks-cluster
+
+  - name: input_blob_contianer_name
+    value: batch-score-input
+
+  - name: output_blob_contianer_name
+    value: batch-score-output
+
+  - name: input_datastore_name
+    value: batch_score_input
+
+  - name: output_datastore_name
+    value: batch_score_output
+
+  - name: input_blob_directory_path
+    value: cardiovascular_disease
+
+  - name: tabular_dataset_spec_file
+    value: data/tabular-dataset-spec.json
+
+  - name: file_dataset_spec_file
+    value: data/file-dataset-spec.json
+
+  - name: compute_vm_size
+    value: Standard_DS2_v2
+
+  - name: compute_max_nodes
+    value: 2

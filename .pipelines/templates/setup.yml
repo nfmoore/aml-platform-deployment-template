@@ -3,22 +3,7 @@ jobs:
     displayName: Setup Workspace
 
     variables:
-      - group: aml-deployment-templates
-
-      - name: resource_group_name
-        value: $(environment)-$(namespace)-rg
-
-      - name: ml_workspace_name
-        value: mlw$(environment)$(namespace)
-
-      - name: aks_name
-        value: aks$(environment)$(namespace)
-
-      - name: compute_cluster_name
-        value: cpu-cluster
-
-      - name: aks_cluster_name
-        value: aks-cluster
+      - template: ./variables.yml
 
     steps:
       - task: AzureCLI@2
@@ -27,7 +12,9 @@ jobs:
           scriptType: bash
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
-          inlineScript: az extension add -n azure-cli-ml
+          inlineScript: |
+            az extension add --name azure-cli-ml
+            az extension add --name storage-preview
 
       - task: AzureCLI@2
         displayName: Attach Workspace
@@ -62,14 +49,72 @@ jobs:
           inlineScript: |
             az ml computetarget create amlcompute \
             --name $(compute_cluster_name) \
-            --vm-size Standard_DS2_v2 \
-            --max-nodes 2
+            --vm-size $(compute_vm_size) \
+            --max-nodes $(compute_max_nodes)
 
       - task: AzureCLI@2
-        displayName: Load Dataset
+        displayName: Register Tabular Dataset
         inputs:
           scriptType: bash
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
-            az ml dataset register --file data/dataset-specification.json --skip-validation
+            az ml dataset register --file $(tabular_dataset_spec_file) --skip-validation
+
+      - task: AzureCLI@2
+        displayName: Create Datastores
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            set -e
+
+            export SUBSCRIPTION_ID=$(az account show | jq ".id" --raw-output)
+
+            export STORAGE_ACCOUNT_KEY=$(az storage account keys list \
+            --resource-group $(resource_group_name) \
+            --account-name $(storage_name) | jq ".[0].value")
+
+            az storage container create \
+            --name $(input_blob_contianer_name) \
+            --account-name $(storage_name) \
+            --resource-group $(resource_group_name) \
+            --account-key $STORAGE_ACCOUNT_KEY
+
+            az storage blob directory create \
+            --container-name $(input_blob_contianer_name) \
+            --directory-path $(input_blob_directory_path) \
+            --account-name $(storage_name) \
+            --account-key $STORAGE_ACCOUNT_KEY
+
+            az storage container create \
+            --name $(output_blob_contianer_name) \
+            --account-name $(storage_name) \
+            --resource-group $(resource_group_name) \
+            --account-key $STORAGE_ACCOUNT_KEY
+
+            az ml datastore attach-blob \
+            --account-name $(storage_name) \
+            --container-name $(input_blob_contianer_name) \
+            --name $(input_datastore_name) \
+            --storage-account-resource-group $(resource_group_name) \
+            --storage-account-subscription-id $SUBSCRIPTION_ID \
+            --account-key $STORAGE_ACCOUNT_KEY
+
+            az ml datastore attach-blob \
+            --account-name $(storage_name) \
+            --container-name $(output_blob_contianer_name)  \
+            --name $(output_datastore_name) \
+            --storage-account-resource-group $(resource_group_name) \
+            --storage-account-subscription-id $SUBSCRIPTION_ID \
+            --account-key $STORAGE_ACCOUNT_KEY
+
+      - task: AzureCLI@2
+        displayName: Register File Dataset
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az ml dataset register --file $(file_dataset_spec_file) --skip-validation
