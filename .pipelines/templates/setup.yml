@@ -3,25 +3,7 @@ jobs:
     displayName: Setup Workspace
 
     variables:
-      - group: aml-deployment-templates
-
-      - name: resource_group_name
-        value: $(environment)-$(namespace)-rg
-
-      - name: ml_workspace_name
-        value: mlw$(environment)$(namespace)
-
-      - name: storage_name
-        value: str$(environment)$(namespace)
-
-      - name: aks_name
-        value: aks$(environment)$(namespace)
-
-      - name: compute_cluster_name
-        value: cpu-cluster
-
-      - name: aks_cluster_name
-        value: aks-cluster
+      - template: ./variables.yml
 
     steps:
       - task: AzureCLI@2
@@ -65,8 +47,8 @@ jobs:
           inlineScript: |
             az ml computetarget create amlcompute \
             --name $(compute_cluster_name) \
-            --vm-size Standard_DS2_v2 \
-            --max-nodes 2
+            --vm-size $(compute_vm_size) \
+            --max-nodes $(compute_max_nodes)
 
       - task: AzureCLI@2
         displayName: Register Tabular Dataset
@@ -75,7 +57,7 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
-            az ml dataset register --file data/tabular-dataset-spec.json --skip-validation
+            az ml dataset register --file $(tabular_dataset_spec_file) --skip-validation
 
       - task: AzureCLI@2
         displayName: Create Datastores
@@ -93,30 +75,36 @@ jobs:
             --account-name $(storage_name) | jq ".[0].value" --raw-output)
 
             az storage container create \
-            --name batch-score-input \
+            --name $(input_blob_contianer_name) \
             --account-name $(storage_name) \
             --resource-group $(resource_group_name)
+
+            az storage blob directory create \
+            --container-name $(input_blob_contianer_name)
+            --directory-path $(input_blob_directory_path)
+            --account-name $(storage_name) \
+            --account-key $STORAGE_ACCOUNT_KEY \
 
             az storage container create \
-            --name batch-score-output \
+            --name $(output_blob_contianer_name) \
             --account-name $(storage_name) \
             --resource-group $(resource_group_name)
 
             az ml datastore attach-blob \
             --account-name $(storage_name) \
-            --container-name batch-score-input \
-            --name batch_score_input \
+            --container-name $(input_blob_contianer_name) \
+            --name $(input_datastore_name) \
             --storage-account-resource-group $(resource_group_name) \
             --storage-account-subscription-id $SUBSCRIPTION_ID \
-            --account-key $STORAGE_ACCOUNT_KEY \
+            --account-key $STORAGE_ACCOUNT_KEY
 
             az ml datastore attach-blob \
             --account-name $(storage_name) \
-            --container-name batch-score-output  \
-            --name batch_score_output \
+            --container-name $(output_blob_contianer_name)  \
+            --name $(output_datastore_name) \
             --storage-account-resource-group $(resource_group_name) \
             --storage-account-subscription-id $SUBSCRIPTION_ID \
-            --account-key $STORAGE_ACCOUNT_KEY \
+            --account-key $STORAGE_ACCOUNT_KEY
 
       - task: AzureCLI@2
         displayName: Register File Dataset
@@ -125,4 +113,4 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
-            az ml dataset register --file data/file-dataset-spec.json --skip-validation
+            az ml dataset register --file $(file_dataset_spec_file) --skip-validation
