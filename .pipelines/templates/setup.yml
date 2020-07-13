@@ -82,8 +82,8 @@ jobs:
             --resource-group $(resource_group_name)
 
             az storage blob directory create \
-            --container-name $(input_blob_contianer_name)
-            --directory-path $(input_blob_directory_path)
+            --container-name $(input_blob_contianer_name) \
+            --directory-path $(input_blob_directory_path) \
             --account-name $(storage_name) \
             --account-key $STORAGE_ACCOUNT_KEY \
 
