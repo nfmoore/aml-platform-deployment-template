@@ -81,7 +81,8 @@ jobs:
             az storage container create \
             --name $(input_blob_contianer_name) \
             --account-name $(storage_name) \
-            --resource-group $(resource_group_name)
+            --resource-group $(resource_group_name) \
+            --account-key $STORAGE_ACCOUNT_KEY
 
             az storage blob directory create \
             --container-name $(input_blob_contianer_name) \
@@ -92,7 +93,8 @@ jobs:
             az storage container create \
             --name $(output_blob_contianer_name) \
             --account-name $(storage_name) \
-            --resource-group $(resource_group_name)
+            --resource-group $(resource_group_name) \
+            --account-key $STORAGE_ACCOUNT_KEY
 
             az ml datastore attach-blob \
             --account-name $(storage_name) \
