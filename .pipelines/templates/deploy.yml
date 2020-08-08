@@ -106,5 +106,5 @@ jobs:
                 resourceGroupName: $(resource_group_name)
                 location: $(location)
                 csmFile: $(Pipeline.Workspace)/infrastructure/compute-aks.json
-                csmParametersFile: "$(Pipeline.Workspace)/infrastructure/compute.parameters.json"
+                csmParametersFile: "$(Pipeline.Workspace)/infrastructure/compute-aks.parameters.json"
                 overrideParameters: -workspaceName $(ml_workspace_name) -location $(location) -clusterName $(aks_name) -computeName $(aks_cluster_name)
