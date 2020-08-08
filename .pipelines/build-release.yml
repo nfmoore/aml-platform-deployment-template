@@ -18,12 +18,12 @@ stages:
   - stage: setup_infra
     displayName: Setup Infrastructure
     jobs:
-      - template: ./templates/infra-build.yml
-      - template: ./templates/infra-deploy.yml
-        parameters:
-          service_connection: ${{ variables.service_connection }}
-          environment: ${{ variables.environment }}
-          namespace: ${{ variables.namespace }}
+      # - template: ./templates/infra-build.yml
+      # - template: ./templates/infra-deploy.yml
+      #   parameters:
+      #     service_connection: ${{ variables.service_connection }}
+      #     environment: ${{ variables.environment }}
+      #     namespace: ${{ variables.namespace }}
 
   - stage: setup_data
     displayName: Setup Data
