@@ -29,9 +29,6 @@ stages:
     displayName: Setup Data
     dependsOn: setup_infra
     jobs:
-      - deployment: Approval
-        displayName: Setup Data Approval
-        environment: $(environment)
       - template: ./templates/setup-data.yml
         parameters:
           service_connection: ${{ variables.service_connection }}

@@ -5,7 +5,7 @@ parameters:
 
 jobs:
   - job: setup_workspace
-    displayName: Setup Workspace
+    displayName: Setup workspace
 
     variables:
       - template: ../variables.yml
@@ -15,6 +15,9 @@ jobs:
 
       - name: ml_workspace_name
         value: mlw$(environment)$(namespace)
+
+      - name: storage_name
+        value: str$(environment)$(namespace)
 
     steps:
       - task: AzureCLI@2
@@ -45,7 +48,7 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
-            az ml dataset register --file $(tabular_dataset_spec_file) --skip-validation
+            az ml dataset register --file $(tabular_dataset_spec_file)
 
       - task: AzureCLI@2
         displayName: Set subscription
