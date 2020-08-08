@@ -3,9 +3,6 @@ parameters:
   - name: namespace
 
 jobs:
-  - job: build_infra
-    displayName: Infrastructure build
-
   - deployment: deploy_infra
     displayName: Infrastructure deployment
     environment: $(environment)
