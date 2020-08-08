@@ -1,4 +1,5 @@
 parameters:
+  - name: service_connection
   - name: environment
   - name: namespace
 
