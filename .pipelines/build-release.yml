@@ -15,19 +15,19 @@ variables:
   - group: aml-deployment-templates
 
 stages:
-  # - stage: setup_infra
-  #   displayName: Setup Infrastructure
-  #   jobs:
-  #     - template: ./templates/infra-build.yml
-  #     - template: ./templates/infra-deploy.yml
-  #       parameters:
-  #         service_connection: ${{ variables.service_connection }}
-  #         environment: ${{ variables.environment }}
-  #         namespace: ${{ variables.namespace }}
+  - stage: setup_infra
+    displayName: Setup Infrastructure
+    jobs:
+      - template: ./templates/infra-build.yml
+      - template: ./templates/infra-deploy.yml
+        parameters:
+          service_connection: ${{ variables.service_connection }}
+          environment: ${{ variables.environment }}
+          namespace: ${{ variables.namespace }}
 
   - stage: setup_data
     displayName: Setup Data
-    # dependsOn: setup_infra
+    dependsOn: setup_infra
     jobs:
       - template: ./templates/setup-data.yml
         parameters:
