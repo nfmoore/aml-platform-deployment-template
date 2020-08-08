@@ -48,6 +48,7 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
+            "/opt/az/bin/python3" -m pip install azureml-dataprep --upgrade
             az ml dataset register --file $(tabular_dataset_spec_file)
 
       - task: AzureCLI@2
