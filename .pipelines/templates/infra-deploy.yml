@@ -101,7 +101,7 @@ jobs:
                 location: $(location)
                 csmFile: $(Pipeline.Workspace)/infrastructure/aks.json
                 csmParametersFile: "$(Pipeline.Workspace)/infrastructure/aks.parameters.json"
-                overrideParameters: -name $(aks_name) -dnsPrefix $(aks_dns_prefix)
+                overrideParameters: -name $(aks_name) -dnsPrefix $(aks_dns_prefix) -location $(location)
 
             - task: AzureResourceGroupDeployment@2
               displayName: Deploy AML workspace
@@ -121,7 +121,7 @@ jobs:
                 location: $(location)
                 csmFile: $(Pipeline.Workspace)/infrastructure/compute-aks.json
                 csmParametersFile: "$(Pipeline.Workspace)/infrastructure/compute-aks.parameters.json"
-                overrideParameters: -workspaceName $(ml_workspace_name) -clusterName $(aks_name) -computeName $(aks_cluster_name)
+                overrideParameters: -workspaceName $(ml_workspace_name) -clusterName $(aks_name) -computeName $(aks_cluster_name) -location $(location)
 
             - task: AzureResourceGroupDeployment@2
               displayName: Create compute cluster
@@ -131,4 +131,4 @@ jobs:
                 location: $(location)
                 csmFile: $(Pipeline.Workspace)/infrastructure/compute-cluster.json
                 csmParametersFile: "$(Pipeline.Workspace)/infrastructure/compute-cluster.parameters.json"
-                overrideParameters: -workspaceName $(ml_workspace_name) -clusterName $(compute_cluster_name)
+                overrideParameters: -workspaceName $(ml_workspace_name) -clusterName $(compute_cluster_name) -location $(location)
