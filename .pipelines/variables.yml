@@ -1,6 +1,4 @@
 variables:
-  - group: aml-deployment-templates
-
   # DEPLOY
   - name: compute_cluster_name
     value: cpu-cluster
