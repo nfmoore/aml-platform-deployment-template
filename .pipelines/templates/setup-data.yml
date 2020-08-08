@@ -83,6 +83,8 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
+            pwd
+            ls
             "/opt/az/bin/python3" -m pip install azureml-core==1.8.* --upgrade
             "/opt/az/bin/python3" src/upload_data.py \
             --subscription_id $(subscription_id) \
