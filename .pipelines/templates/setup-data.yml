@@ -83,7 +83,7 @@ jobs:
           azureSubscription: $(service_connection)
           scriptLocation: inlineScript
           inlineScript: |
-            "/opt/az/bin/python3" -m pip install azureml-core==1.8.* --upgrade
+            "/opt/az/bin/python3" -m pip install azureml-core==1.8.* azureml-dataprep==1.8.* --upgrade
             "/opt/az/bin/python3" src/upload_dataset.py \
             --subscription_id $(subscription_id) \
             --resource_group $(resource_group_name) \
