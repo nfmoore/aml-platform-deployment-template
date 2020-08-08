@@ -84,7 +84,7 @@ jobs:
           scriptLocation: inlineScript
           inlineScript: |
             "/opt/az/bin/python3" -m pip install azureml-core==1.8.* --upgrade
-            "/opt/az/bin/python3" -m src.upload_data.py \
+            "/opt/az/bin/python3" -m src.upload_data \
             --subscription_id $(subscription_id) \
             --resource_group $(resource_group_name) \
             --workspace_name $(ml_workspace_name)
