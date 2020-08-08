@@ -11,10 +11,10 @@ jobs:
       - template: ../variables.yml
 
       - name: resource_group_name
-        value: ${{ parameters.environment }}-${{ parameters.namespace }}-rg
+        value: $(environment)-$(namespace)-rg
 
       - name: ml_workspace_name
-        value: mlw${{ parameters.environment }}${{ parameters.namespace }}
+        value: mlw$(environment)$(namespace)
 
     steps:
       - task: AzureCLI@2

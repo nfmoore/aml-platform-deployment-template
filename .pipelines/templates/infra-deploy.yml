@@ -16,25 +16,25 @@ jobs:
         value: $(environment)-$(namespace)-rg
 
       - name: ml_workspace_name
-        value: mlw${{ parameters.environment }}${{ parameters.namespace }}
+        value: mlw$(environment)$(namespace)
 
       - name: storage_name
-        value: str${{ parameters.environment }}${{ parameters.namespace }}
+        value: str$(environment)$(namespace)
 
       - name: key_vault_name
-        value: kv${{ parameters.environment }}${{ parameters.namespace }}
+        value: kv$(environment)$(namespace)
 
       - name: app_insights_name
-        value: ai${{ parameters.environment }}${{ parameters.namespace }}
+        value: ai$(environment)$(namespace)
 
       - name: container_registry_name
-        value: cr${{ parameters.environment }}${{ parameters.namespace }}
+        value: cr$(environment)$(namespace)
 
       - name: aks_name
-        value: aks${{ parameters.environment }}${{ parameters.namespace }}
+        value: aks$(environment)$(namespace)
 
       - name: aks_dns_prefix
-        value: aks${{ parameters.environment }}${{ parameters.namespace }}-dns
+        value: aks$(environment)$(namespace)-dns
 
     strategy:
       runOnce:
