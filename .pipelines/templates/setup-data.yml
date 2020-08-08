@@ -1,0 +1,98 @@
+jobs:
+  - job: setup_workspace
+    displayName: Setup Workspace
+
+    variables:
+      - template: ./variables.yml
+
+    steps:
+      - task: AzureCLI@2
+        displayName: Install azure-cli-ml
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az extension add --name azure-cli-ml
+            az extension add --name storage-preview
+
+      - task: AzureCLI@2
+        displayName: Attach workspace
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az ml folder attach \
+            --workspace-name $(ml_workspace_name) \
+            --resource-group $(resource_group_name)
+
+      - task: AzureCLI@2
+        displayName: Register tabular dataset
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            az ml dataset register --file $(tabular_dataset_spec_file) --skip-validation
+
+      - task: AzureCLI@2
+        displayName: Set subscription
+        inputs:
+          azureSubscription: $(service_connection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            # Fail on error
+            set -e
+
+            # Get subscription id
+            SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+
+            # Set variable for pipeline
+            echo "##vso[task.setvariable variable=subscription_id]$SUBSCRIPTION_ID"
+
+      - task: AzureCLI@2
+        displayName: Set storage account key
+        inputs:
+          azureSubscription: $(service_connection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            # Fail on error
+            set -e
+
+            # Get storage account key
+            STORAGE_ACCOUNT_KEY=$(az storage account keys list \
+            --resource-group $(resource_group_name) \
+            --account-name $(storage_name) \
+            --query id -o tsv)
+
+            # Set variable for pipeline
+            echo "##vso[task.setvariable variable=storage_account_key]$STORAGE_ACCOUNT_KEY"
+
+      - task: AzureCLI@2
+        displayName: Create datastore
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            # # Fail on error
+            set -e
+
+            # Create container in blob storage
+            az storage container create \
+            --name $(blob_contianer_name) \
+            --account-name $(storage_name) \
+            --resource-group $(resource_group_name) \
+            --account-key $(storage_account_key)
+
+            # Attach container as datastore
+            az ml datastore attach-blob \
+            --account-name $(storage_name) \
+            --container-name $(blob_contianer_name)  \
+            --name $(datastore_name) \
+            --storage-account-resource-group $(resource_group_name) \
+            --storage-account-subscription-id $(subscription_id) \
+            --account-key $(storage_account_key)

@@ -26,36 +26,18 @@ variables:
   - name: aks_dns_prefix
     value: aks$(environment)$(namespace)-dns
 
-  # SETUP
   - name: compute_cluster_name
     value: cpu-cluster
 
   - name: aks_cluster_name
     value: aks-cluster
 
-  - name: input_blob_contianer_name
-    value: batch-score-input
-
-  - name: output_blob_contianer_name
-    value: batch-score-output
+  # SETUP
+  - name: blob_contianer_name
+    value: batch-score
 
   - name: input_datastore_name
-    value: batch_score_input
-
-  - name: output_datastore_name
-    value: batch_score_output
-
-  - name: input_blob_directory_path
-    value: cardiovascular_disease
+    value: batch_score
 
   - name: tabular_dataset_spec_file
     value: data/tabular-dataset-spec.json
-
-  - name: file_dataset_spec_file
-    value: data/file-dataset-spec.json
-
-  - name: compute_vm_size
-    value: Standard_DS2_v2
-
-  - name: compute_max_nodes
-    value: 2
