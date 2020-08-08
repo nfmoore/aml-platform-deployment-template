@@ -1,0 +1,19 @@
+variables:
+  - group: aml-deployment-templates
+
+  # DEPLOY
+  - name: compute_cluster_name
+    value: cpu-cluster
+
+  - name: aks_cluster_name
+    value: aks-cluster
+
+  # SETUP
+  - name: blob_contianer_name
+    value: batch-score
+
+  - name: input_datastore_name
+    value: batch_score
+
+  - name: tabular_dataset_spec_file
+    value: data/tabular-dataset-spec.json

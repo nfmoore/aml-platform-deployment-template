@@ -1,9 +1,19 @@
+parameters:
+  - name: environment
+  - name: namespace
+
 jobs:
   - job: setup_workspace
     displayName: Setup Workspace
 
     variables:
-      - template: ./variables.yml
+      - template: ../variables.yml
+
+      - name: resource_group_name
+        value: ${{ parameters.environment }}-${{ parameters.namespace }}-rg
+
+      - name: ml_workspace_name
+        value: mlw${{ parameters.environment }}${{ parameters.namespace }}
 
     steps:
       - task: AzureCLI@2
@@ -24,8 +34,8 @@ jobs:
           scriptLocation: inlineScript
           inlineScript: |
             az ml folder attach \
-            --workspace-name $(ml_workspace_name) \
-            --resource-group $(resource_group_name)
+            --resource-group $(resource_group_name) \
+            --workspace-name $(ml_workspace_name)
 
       - task: AzureCLI@2
         displayName: Register tabular dataset

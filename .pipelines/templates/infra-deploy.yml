@@ -1,26 +1,42 @@
+parameters:
+  - name: environment
+  - name: namespace
+
 jobs:
   - job: build_infra
-    displayName: Infrastructure Build
-
-    variables:
-      - group: aml-deployment-templates
-
-    steps:
-      - task: CopyFiles@2
-        displayName: "Copy ARM Templates"
-        inputs:
-          sourceFolder: infrastructure
-          targetFolder: $(Build.ArtifactStagingDirectory)
-      - publish: $(Build.ArtifactStagingDirectory)
-        artifact: infrastructure
+    displayName: Infrastructure build
 
   - deployment: deploy_infra
-    displayName: Infrastructure Deployment
+    displayName: Infrastructure deployment
     environment: $(environment)
     dependsOn: build_infra
 
     variables:
-      - template: ./variables.yml
+      - template: ../variables.yml
+
+      - name: resource_group_name
+        value: ${{ parameters.environment }}-${{ parameters.namespace }}-rg
+
+      - name: ml_workspace_name
+        value: mlw${{ parameters.environment }}${{ parameters.namespace }}
+
+      - name: storage_name
+        value: str${{ parameters.environment }}${{ parameters.namespace }}
+
+      - name: key_vault_name
+        value: kv${{ parameters.environment }}${{ parameters.namespace }}
+
+      - name: app_insights_name
+        value: ai${{ parameters.environment }}${{ parameters.namespace }}
+
+      - name: container_registry_name
+        value: cr${{ parameters.environment }}${{ parameters.namespace }}
+
+      - name: aks_name
+        value: aks${{ parameters.environment }}${{ parameters.namespace }}
+
+      - name: aks_dns_prefix
+        value: aks${{ parameters.environment }}${{ parameters.namespace }}-dns
 
     strategy:
       runOnce:
@@ -30,7 +46,7 @@ jobs:
               artifact: infrastructure
 
             - task: AzureCLI@2
-              displayName: Install Azure ML CLI
+              displayName: Install azure-ml-cli
               inputs:
                 scriptType: bash
                 azureSubscription: $(service_connection)
@@ -40,7 +56,7 @@ jobs:
                   az account show
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Deploy Storage Account
+              displayName: Deploy storage account
               inputs:
                 azureSubscription: $(service_connection)
                 resourceGroupName: $(resource_group_name)
@@ -50,7 +66,7 @@ jobs:
                 overrideParameters: -name $(storage_name) -location $(location)
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Deploy Key Vault
+              displayName: Deploy key vault
               inputs:
                 azureSubscription: $(service_connection)
                 resourceGroupName: $(resource_group_name)
@@ -60,7 +76,7 @@ jobs:
                 overrideParameters: -name $(key_vault_name) -location $(location)
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Deploy Application Insights
+              displayName: Deploy application insights
               inputs:
                 azureSubscription: $(service_connection)
                 resourceGroupName: $(resource_group_name)
@@ -70,7 +86,7 @@ jobs:
                 overrideParameters: -name $(app_insights_name) -location $(location)
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Deploy Container Registry
+              displayName: Deploy container registry
               inputs:
                 azureSubscription: $(service_connection)
                 resourceGroupName: $(resource_group_name)
@@ -80,7 +96,7 @@ jobs:
                 overrideParameters: -name $(container_registry_name) -location $(location)
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Deploy AKS Cluster
+              displayName: Deploy AKS cluster
               inputs:
                 azureSubscription: $(service_connection)
                 resourceGroupName: $(resource_group_name)
@@ -90,7 +106,7 @@ jobs:
                 overrideParameters: -name $(aks_name) -dnsPrefix $(aks_dns_prefix)
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Deploy AML Workspace
+              displayName: Deploy AML workspace
               inputs:
                 azureSubscription: $(service_connection)
                 resourceGroupName: $(resource_group_name)
@@ -100,7 +116,7 @@ jobs:
                 overrideParameters: -workspaceName $(ml_workspace_name) -keyVaultName $(key_vault_name) -appInsightsName $(app_insights_name) -containerRegistryName $(container_registry_name) -storageAccountName $(storage_name) -location $(location) -sku $(aml_sku)
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Attach AKS Compute
+              displayName: Attach AKS compute
               inputs:
                 azureSubscription: $(service_connection)
                 resourceGroupName: $(resource_group_name)
@@ -110,7 +126,7 @@ jobs:
                 overrideParameters: -workspaceName $(ml_workspace_name) -clusterName $(aks_name) -computeName $(aks_cluster_name)
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Create Compute Cluster
+              displayName: Create compute cluster
               inputs:
                 azureSubscription: $(service_connection)
                 resourceGroupName: $(resource_group_name)
