@@ -107,4 +107,14 @@ jobs:
                 location: $(location)
                 csmFile: $(Pipeline.Workspace)/infrastructure/compute-aks.json
                 csmParametersFile: "$(Pipeline.Workspace)/infrastructure/compute-aks.parameters.json"
-                overrideParameters: -workspaceName $(ml_workspace_name) -location $(location) -clusterName $(aks_name) -computeName $(aks_cluster_name)
+                overrideParameters: -workspaceName $(ml_workspace_name) -clusterName $(aks_name) -computeName $(aks_cluster_name)
+
+            - task: AzureResourceGroupDeployment@2
+              displayName: Create Compute Cluster
+              inputs:
+                azureSubscription: $(service_connection)
+                resourceGroupName: $(resource_group_name)
+                location: $(location)
+                csmFile: $(Pipeline.Workspace)/infrastructure/compute-cluster.json
+                csmParametersFile: "$(Pipeline.Workspace)/infrastructure/compute-cluster.parameters.json"
+                overrideParameters: -workspaceName $(ml_workspace_name) -clusterName $(compute_cluster_name)
