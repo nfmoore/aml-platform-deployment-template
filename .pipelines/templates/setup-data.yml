@@ -31,7 +31,7 @@ jobs:
             az extension add --name storage-preview
 
       - task: AzureCLI@2
-        displayName: Attach workspace
+        displayName: Set workspace
         inputs:
           scriptType: bash
           azureSubscription: $(service_connection)
@@ -40,16 +40,6 @@ jobs:
             az ml folder attach \
             --resource-group $(resource_group_name) \
             --workspace-name $(ml_workspace_name)
-
-      - task: AzureCLI@2
-        displayName: Register tabular dataset
-        inputs:
-          scriptType: bash
-          azureSubscription: $(service_connection)
-          scriptLocation: inlineScript
-          inlineScript: |
-            "/opt/az/bin/python3" -m pip install azureml-dataprep --upgrade
-            az ml dataset register --file $(tabular_dataset_spec_file)
 
       - task: AzureCLI@2
         displayName: Set subscription
@@ -85,6 +75,19 @@ jobs:
 
             # Set variable for pipeline
             echo "##vso[task.setvariable variable=storage_account_key]$STORAGE_ACCOUNT_KEY"
+
+      - task: AzureCLI@2
+        displayName: Register tabular dataset
+        inputs:
+          scriptType: bash
+          azureSubscription: $(service_connection)
+          scriptLocation: inlineScript
+          inlineScript: |
+            "/opt/az/bin/python3" -m pip install azureml-core==1.8.* --upgrade
+            "/opt/az/bin/python3" -m src.upload_data.py \
+            --subscription_id $(subscription_id) \
+            --resource_group $(resource_group_name) \
+            --workspace_name $(ml_workspace_name)
 
       - task: AzureCLI@2
         displayName: Create datastore
