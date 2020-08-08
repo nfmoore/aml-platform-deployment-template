@@ -23,6 +23,9 @@ variables:
   - name: aks_name
     value: aks$(environment)$(namespace)
 
+  - name: aks_dns_prefix
+    value: aks$(environment)$(namespace)-dns
+
   # SETUP
   - name: compute_cluster_name
     value: cpu-cluster

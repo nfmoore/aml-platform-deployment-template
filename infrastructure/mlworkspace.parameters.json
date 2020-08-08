@@ -22,6 +22,12 @@
     },
     "sku": {
       "value": "enterprise"
+    },
+    "computeName": {
+      "value": "aks-compute"
+    },
+    "clusterName": {
+      "value": "aks-aml-platform"
     }
   }
 }

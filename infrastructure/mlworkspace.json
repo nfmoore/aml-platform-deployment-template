@@ -22,6 +22,12 @@
     },
     "sku": {
       "type": "string"
+    },
+    "computeName": {
+      "type": "string"
+    },
+    "clusterName": {
+      "type": "string"
     }
   },
   "resources": [
@@ -42,6 +48,16 @@
         "applicationInsights": "[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]",
         "containerRegistry": "[resourceId('Microsoft.ContainerRegistry/registries', parameters('containerRegistryName'))]",
         "storageAccount": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      }
+    },
+    {
+      "type": "Microsoft.MachineLearningServices/workspaces/computes",
+      "apiVersion": "2018-11-19",
+      "name": "[concat(parameters('workspaceName'), '/', parameters('computeName'))]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "computeType": "Aks",
+        "resourceId": "[resourceId('Microsoft.ContainerService/managedClusters', parameters('clusterName'))]"
       }
     }
   ]

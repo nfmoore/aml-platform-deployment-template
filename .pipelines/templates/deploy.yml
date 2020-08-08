@@ -80,16 +80,6 @@ jobs:
                 overrideParameters: -name $(container_registry_name) -location $(location)
 
             - task: AzureResourceGroupDeployment@2
-              displayName: Deploy AML Workspace
-              inputs:
-                azureSubscription: $(service_connection)
-                resourceGroupName: $(resource_group_name)
-                location: $(location)
-                csmFile: $(Pipeline.Workspace)/infrastructure/mlworkspace.json
-                csmParametersFile: "$(Pipeline.Workspace)/infrastructure/mlworkspace.parameters.json"
-                overrideParameters: -workspaceName $(ml_workspace_name) -keyVaultName $(key_vault_name) -appInsightsName $(app_insights_name) -containerRegistryName $(container_registry_name) -storageAccountName $(storage_name) -location $(location) -sku $(aml_sku)
-
-            - task: AzureResourceGroupDeployment@2
               displayName: Deploy AKS Cluster
               inputs:
                 azureSubscription: $(service_connection)
@@ -97,4 +87,14 @@ jobs:
                 location: $(location)
                 csmFile: $(Pipeline.Workspace)/infrastructure/aks.json
                 csmParametersFile: "$(Pipeline.Workspace)/infrastructure/aks.parameters.json"
-                overrideParameters: -name $(aks_name) -dnsPrefix $(aks_name)
+                overrideParameters: -name $(aks_name) -dnsPrefix $(aks_dns_prefix)
+
+            - task: AzureResourceGroupDeployment@2
+              displayName: Deploy AML Workspace
+              inputs:
+                azureSubscription: $(service_connection)
+                resourceGroupName: $(resource_group_name)
+                location: $(location)
+                csmFile: $(Pipeline.Workspace)/infrastructure/mlworkspace.json
+                csmParametersFile: "$(Pipeline.Workspace)/infrastructure/mlworkspace.parameters.json"
+                overrideParameters: -workspaceName $(ml_workspace_name) -keyVaultName $(key_vault_name) -appInsightsName $(app_insights_name) -containerRegistryName $(container_registry_name) -storageAccountName $(storage_name) -location $(location) -sku $(aml_sku) -clusterName $(aks_name) -computeName $(aks_cluster_name)

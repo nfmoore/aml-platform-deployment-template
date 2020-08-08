@@ -76,17 +76,17 @@ jobs:
             --resource-group $(resource_group_name) \
             --account-name $(storage_name) | jq ".[0].value")
 
-            az storage container create \
-            --name $(input_blob_contianer_name) \
-            --account-name $(storage_name) \
-            --resource-group $(resource_group_name) \
-            --account-key $STORAGE_ACCOUNT_KEY
+            # az storage container create \
+            # --name $(input_blob_contianer_name) \
+            # --account-name $(storage_name) \
+            # --resource-group $(resource_group_name) \
+            # --account-key $STORAGE_ACCOUNT_KEY
 
-            az storage blob directory create \
-            --container-name $(input_blob_contianer_name) \
-            --directory-path $(input_blob_directory_path) \
-            --account-name $(storage_name) \
-            --account-key $STORAGE_ACCOUNT_KEY
+            # az storage blob directory create \
+            # --container-name $(input_blob_contianer_name) \
+            # --directory-path $(input_blob_directory_path) \
+            # --account-name $(storage_name) \
+            # --account-key $STORAGE_ACCOUNT_KEY
 
             az storage container create \
             --name $(output_blob_contianer_name) \
@@ -94,13 +94,13 @@ jobs:
             --resource-group $(resource_group_name) \
             --account-key $STORAGE_ACCOUNT_KEY
 
-            az ml datastore attach-blob \
-            --account-name $(storage_name) \
-            --container-name $(input_blob_contianer_name) \
-            --name $(input_datastore_name) \
-            --storage-account-resource-group $(resource_group_name) \
-            --storage-account-subscription-id $SUBSCRIPTION_ID \
-            --account-key $STORAGE_ACCOUNT_KEY
+            # az ml datastore attach-blob \
+            # --account-name $(storage_name) \
+            # --container-name $(input_blob_contianer_name) \
+            # --name $(input_datastore_name) \
+            # --storage-account-resource-group $(resource_group_name) \
+            # --storage-account-subscription-id $SUBSCRIPTION_ID \
+            # --account-key $STORAGE_ACCOUNT_KEY
 
             az ml datastore attach-blob \
             --account-name $(storage_name) \
@@ -110,11 +110,11 @@ jobs:
             --storage-account-subscription-id $SUBSCRIPTION_ID \
             --account-key $STORAGE_ACCOUNT_KEY
 
-      - task: AzureCLI@2
-        displayName: Register File Dataset
-        inputs:
-          scriptType: bash
-          azureSubscription: $(service_connection)
-          scriptLocation: inlineScript
-          inlineScript: |
-            az ml dataset register --file $(file_dataset_spec_file) --skip-validation
+      # - task: AzureCLI@2
+      #   displayName: Register File Dataset
+      #   inputs:
+      #     scriptType: bash
+      #     azureSubscription: $(service_connection)
+      #     scriptLocation: inlineScript
+      #     inlineScript: |
+      #       az ml dataset register --file $(file_dataset_spec_file) --skip-validation
