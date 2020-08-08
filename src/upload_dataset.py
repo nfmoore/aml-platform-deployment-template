@@ -12,7 +12,7 @@ def parse_args(argv):
     ap.add_argument("--subscription_id", required=True)
     ap.add_argument("--resource_group", required=True)
     ap.add_argument("--workspace_name", required=True)
-    ap.add_argument("--datasetset_directory_name", default="data")
+    ap.add_argument("--dataset_directory_name", default="data")
     ap.add_argument("--dataset_file_name", default="cardiovascular-disease.csv")
     ap.add_argument("--dataset_name", default="cardiovascular_disease_dataset")
     ap.add_argument(
