@@ -6,7 +6,7 @@
       "value": "mlw-aml-platform"
     },
     "location": {
-      "value": "Australia East"
+      "value": "australiaeast"
     },
     "computeName": {
       "value": "aks-compute"

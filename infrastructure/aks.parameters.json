@@ -6,7 +6,7 @@
       "value": "aks-aml-platform"
     },
     "location": {
-      "value": "Australia East"
+      "value": "australiaeast"
     },
     "dnsPrefix": {
       "value": "aks-aml-platform-dns"
