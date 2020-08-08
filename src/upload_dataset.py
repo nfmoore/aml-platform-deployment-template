@@ -56,7 +56,7 @@ def main():
     # Assign timestamp column for Tabular Dataset to activate Time Series related APIs
     dataset = dataset.with_timestamp_columns(timestamp="datetime")
 
-    # register dataset to Workspace
+    # Register dataset to Workspace
     dataset.register(
         workspace,
         args.dataset_name,
