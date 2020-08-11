@@ -52,7 +52,7 @@ See [these](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/vari
    3. Select `GitHub` (authenticate if necessary).
    4. Select your GitHub repository from the list of repositories (authenticate if necessary).
    5. Select `Existing Azure Pipelines YAML File`.
-   6. Select the `master` branch and enter `/.pipeline/main.yml` as the path or select it from the dropdown and click `Continue`.
+   6. Select the `master` branch and enter `/.pipeline/build-deploy.yml` as the path or select it from the dropdown and click `Continue`.
    7. Select `Run` from the top-right of the protal to execute the pipeline and deploy the platform.
 
    See [these](https://docs.microsoft.com/en-us/azure/devops/pipelines/create-first-pipeline) instructions for more details about creating a pipeline in Azure DevOps.
