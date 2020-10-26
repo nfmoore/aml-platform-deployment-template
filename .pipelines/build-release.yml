@@ -21,9 +21,8 @@ stages:
       - template: ./templates/infra-build.yml
       - template: ./templates/infra-deploy.yml
         parameters:
-          service_connection: ${{ variables.service_connection }}
-          environment: ${{ variables.environment }}
-          namespace: ${{ variables.namespace }}
+          variable_group: aml-deployment-templates
+          service_connection: $(service_connection)
 
   - stage: setup_data
     displayName: Setup Data
@@ -31,6 +30,5 @@ stages:
     jobs:
       - template: ./templates/setup-data.yml
         parameters:
-          service_connection: ${{ variables.service_connection }}
-          environment: ${{ variables.environment }}
-          namespace: ${{ variables.namespace }}
+          variable_group: aml-deployment-templates
+          service_connection: $(service_connection)
