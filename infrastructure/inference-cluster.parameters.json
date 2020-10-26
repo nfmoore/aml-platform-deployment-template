@@ -2,17 +2,26 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "clusterName": {
+      "value": "aks-compute"
+    },
     "workspaceName": {
       "value": "mlw-aml-platform"
     },
     "location": {
       "value": "australiaeast"
     },
-    "computeName": {
-      "value": "aks-compute"
+    "agentCount": {
+      "value": 1
     },
-    "clusterName": {
-      "value": "aks-aml-platform"
+    "agentVMSize": {
+      "value": "Standard_D3_v2"
+    },
+    "clusterPurpose": {
+      "value": "DevTest"
+    },
+    "sslConfigurationStatus": {
+      "value": "Disabled"
     }
   }
 }

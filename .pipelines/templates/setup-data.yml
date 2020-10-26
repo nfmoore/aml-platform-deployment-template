@@ -1,13 +1,14 @@
 parameters:
   - name: service_connection
-  - name: environment
-  - name: namespace
+  - name: variable_group
 
 jobs:
   - job: setup_workspace
     displayName: Setup workspace
 
     variables:
+      - group: ${{ parameters.variable_group }}
+
       - template: ../variables.yml
 
       - name: resource_group_name
